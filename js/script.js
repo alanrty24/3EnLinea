@@ -2,6 +2,7 @@ const casillas = document.querySelectorAll(".casilla");
 const turno = document.querySelector(".turno");
 const ganador = document.querySelector(".ganador");
 const btnReiniciar = document.querySelector(".btn");
+const jugadores = [];
 let turnoJugador = "X";
 let estadoJuego = Array(9).fill("");
 const gameOver = [
@@ -26,19 +27,57 @@ const gameOver = [
 
 // * Reinicia el Juego
 btnReiniciar.addEventListener("click", () => {
-  iniciarJuego();
+  reiniciarJuego();
 });
 
 // * Función encargada de Iniciar o Restablecer el Juego
 const iniciarJuego = () => {
-  turnoJugador = "X";
-  turno.firstElementChild.textContent = turnoJugador;
+  let aut = true;
+
+  // * Guardo El nombre de los jugadores
+  // * 1) Valido con un do while si el primer jugador esta correctamente cargado
+  do {
+    jugadores.pop();
+    jugadores.push({
+      name: prompt("Ingrese el Jugador 1").toUpperCase(),
+      item: prompt("Eres X ó O").toUpperCase(),
+    });
+    if (
+      jugadores[0].item.toUpperCase() === "X" ||
+      jugadores[0].item.toUpperCase() === "O"
+    ) {
+      aut = false;
+    }
+  } while (aut == true);
+
+  // * 2) Guardo el segundo jugador con respecto a los datos del primer jugador 
+  jugadores.push({
+    name: prompt("Ingrese el Jugador 2").toUpperCase(),
+    item:
+      jugadores[0].item == "X" ? (turnoJugador = "O") : (turnoJugador = "X"),
+  });
+
+  // * Comienza la logica del juego
+  turnoJugador = jugadores[0].item;
+  turno.firstElementChild.textContent = jugadores[0].name + " " + turnoJugador;
   ganador.firstElementChild.textContent = "";
   estadoJuego = Array(9).fill("");
   casillas.forEach((casilla) => {
     casilla.textContent = "";
   });
 };
+
+// * Reiniciar el juego 
+const reiniciarJuego = () => {
+  // * Comienza la logica del juego
+  turnoJugador = jugadores[0].item;
+  turno.firstElementChild.textContent = jugadores[0].name + " " + turnoJugador;
+  ganador.firstElementChild.textContent = "";
+  estadoJuego = Array(9).fill("");
+  casillas.forEach((casilla) => {
+    casilla.textContent = "";
+  });
+}
 
 // * Lleva el registro de cada movimiento del jugador
 const movimientoJugador = (i) => {
@@ -54,15 +93,29 @@ const movimientoJugador = (i) => {
     if (!juegoGanado(i)) {
       turnoJugador =
         turnoJugador == "X" ? (turnoJugador = "O") : (turnoJugador = "X");
-      turno.firstElementChild.textContent = turnoJugador;
+      if (turnoJugador == jugadores[0].item) {
+        turno.firstElementChild.textContent = jugadores[0].name + " " + turnoJugador;
+      } else {
+        turno.firstElementChild.textContent = jugadores[1].name + " " + turnoJugador;
+      }
+
     } else {
-      ganador.firstElementChild.textContent = turnoJugador;
-      return false;
+      if (turnoJugador == jugadores[0].item) {
+        ganador.firstElementChild.textContent = jugadores[0].name;
+        turno.firstElementChild.textContent = "";
+      } else {
+        ganador.firstElementChild.textContent = jugadores[1].name;
+        turno.firstElementChild.textContent = "";
+      }
+      
+      // ganador.firstElementChild.textContent = turnoJugador;
+      // return false;
     }
   }
 
   // * Vemos si ya la tabla esta completa
   if (!checkTable()) {
+    turno.firstElementChild.textContent = "";
     ganador.firstElementChild.textContent = "El Juego Quedo Tabla";
     return false;
   }
