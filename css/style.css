@@ -1,0 +1,114 @@
+* {
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+:root{
+    font-size: 20px;
+
+    /* * Varibles */
+    --border: solid .1rem #A2AF9B; 
+    --color-x: red;
+    --color-y: blue; 
+    --color-ganador: green; 
+    --color-empate: yellow; 
+    --color-fondo: #FAF9EE; 
+    --color-letra: #A2AF9B;
+    --color-boton: #DCCFC0; 
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--color-fondo);
+    color: var(--color-letra);
+    display: grid;
+    grid-template-rows: 10% 1fr 30%;
+    grid-template-areas: 
+    "title"
+    "game"
+    "info";
+}
+
+/* TODO: Titulo del Juego */
+.title{
+    grid-area: title;
+    margin: 0;
+    /* border-bottom: var(--border); */
+    padding: 1rem;
+    text-align: center;
+}
+
+/* TODO: Contenedor del tablero de juego */
+.container{
+    grid-area: game;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border-bottom: var(--border); */
+}
+
+.container .table{
+    width: 30%;
+    height: 90%;
+    border: var(--border);
+    display: grid;
+    grid-template-rows: repeat(3,1fr);
+    grid-template-columns: repeat(3,1fr);
+}
+
+.container .table .casilla{
+    border: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+/* TODO: Información del juego */
+
+.contInfo{
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+    position: relative;
+}
+
+.contInfo h3{
+    margin: 0;
+    /* position: absolute; */
+    /* left: 35%; */
+}
+
+.contInfo .turno{
+    position: absolute;
+    left: 35%;
+}
+
+.contInfo .ganador{
+    position: absolute;
+    left: 35%;
+    top: 30%;
+}
+
+.contInfo .btn{
+    width: 7.5rem;
+    height: 2rem;
+    border: none;
+    border-radius: .5rem;
+    background-color: var(--color-letra);
+    color: var(--color-fondo);
+    position: absolute;
+    top: 60%;
+
+    &:hover{
+        cursor: pointer;
+    }
+}
