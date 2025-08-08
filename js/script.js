@@ -90,7 +90,7 @@ const movimientoJugador = (i) => {
   } else {
     estadoJuego[i] = turnoJugador;
     casillas[i].textContent = turnoJugador;
-    if (!juegoGanado(i)) {
+    if (!juegoGanado()) {
       turnoJugador =
         turnoJugador == "X" ? (turnoJugador = "O") : (turnoJugador = "X");
       if (turnoJugador == jugadores[0].item) {
@@ -114,7 +114,7 @@ const movimientoJugador = (i) => {
   }
 
   // * Vemos si ya la tabla esta completa
-  if (!checkTable()) {
+  if (!checkTable() && !juegoGanado()) {
     turno.firstElementChild.textContent = "";
     ganador.firstElementChild.textContent = "El Juego Quedo Tabla";
     return false;
